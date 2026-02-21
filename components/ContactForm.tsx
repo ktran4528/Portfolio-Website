@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+const WORKER_URL = 'https://portfolio-api-worker.<your-subdomain>.workers.dev'; // <-- replace with your Worker URL
+
 const ContactForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
@@ -13,25 +15,22 @@ const ContactForm: React.FC = () => {
     setErrorMessage('');
 
     try {
-      const response = await fetch('/api/send-email', {
+      const response = await fetch(WORKER_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, subject, message }),
       });
 
-      const data = await response.json();
-
+      const text = await response.text(); // Worker returns plain text
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to send email');
+        throw new Error(text || 'Failed to send email');
       }
 
       setStatus('success');
       setEmail('');
       setSubject('');
       setMessage('');
-      
+
       // Clear success message after 5 seconds
       setTimeout(() => setStatus('idle'), 5000);
     } catch (error) {
@@ -48,7 +47,6 @@ const ContactForm: React.FC = () => {
           Message sent successfully! I'll get back to you soon.
         </div>
       )}
-      
       {status === 'error' && (
         <div className="mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-xl text-red-200 text-center animate-in fade-in slide-in-from-top-2">
           {errorMessage}
@@ -62,12 +60,13 @@ const ContactForm: React.FC = () => {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#FFADAD] transition-all disabled:opacity-50"
           placeholder="you@example.com"
           required
           disabled={status === 'loading'}
+          className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#FFADAD] transition-all disabled:opacity-50"
         />
       </div>
+
       <div className="mb-6">
         <label htmlFor="subject" className="block text-[#BDBDBD] text-sm font-bold mb-2 text-left">Subject</label>
         <input
@@ -75,12 +74,13 @@ const ContactForm: React.FC = () => {
           id="subject"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#FFADAD] transition-all disabled:opacity-50"
           placeholder="Project Inquiry"
           required
           disabled={status === 'loading'}
+          className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#FFADAD] transition-all disabled:opacity-50"
         />
       </div>
+
       <div className="mb-8">
         <label htmlFor="message" className="block text-[#BDBDBD] text-sm font-bold mb-2 text-left">Message</label>
         <textarea
@@ -88,12 +88,13 @@ const ContactForm: React.FC = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           rows={4}
-          className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#FFADAD] transition-all resize-none disabled:opacity-50"
           placeholder="Hi Kevin, I'd like to discuss..."
           required
           disabled={status === 'loading'}
+          className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#FFADAD] transition-all resize-none disabled:opacity-50"
         />
       </div>
+
       <button
         type="submit"
         disabled={status === 'loading'}
