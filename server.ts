@@ -1,77 +1,66 @@
-import express from "express";
-import { createServer as createViteServer } from "vite";
-import { Resend } from 'resend';
-import 'dotenv/config';
-
-async function startServer() {
-  const app = express();
-  const PORT = 3000;
-
-  // Parse JSON bodies
-  app.use(express.json());
-
-  // API routes FIRST
-  app.get("/api/health", (req, res) => {
-    res.json({ status: "ok" });
-  });
-
-  app.post("/api/send-email", async (req, res) => {
-    const { email, subject, message } = req.body;
-
-    if (!email || !subject || !message) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
-
-    // Use environment variable
-    const apiKey = process.env.RESEND_API_KEY;
-    
-    if (!apiKey) {
-      return res.status(500).json({ error: "Resend API key not configured" });
-    }
-
-    const resend = new Resend(apiKey);
-
-    try {
-      const { data, error } = await resend.emails.send({
-        from: 'onboarding@resend.dev',
-        to: 'kevin45283@gmail.com',
-        reply_to: email,
-        subject: subject,
-        html: `
-          <p><strong>From:</strong> ${email}</p>
-          <p><strong>Subject:</strong> ${subject}</p>
-          <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br>')}</p>
-        `
-      });
-
-      if (error) {
-        console.error("Resend error:", error);
-        return res.status(400).json({ error: error.message });
-      }
-
-      res.json({ success: true, data });
-    } catch (err) {
-      console.error("Server error:", err);
-      res.status(500).json({ error: "Failed to send email" });
-    }
-  });
-
-  // Vite middleware for development
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
-  } else {
-    // Serve static files in production (if needed, though this is mainly for dev)
-    app.use(express.static('dist'));
-  }
-
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+export interface Env {
+  RESEND_API_KEY: string;
 }
 
-startServer();
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    if (request.method !== 'POST') {
+      return new Response('Method not allowed', { status: 405 });
+    }
+
+    try {
+      const { email, subject, message } = await request.json();
+
+      if (!email || !subject || !message) {
+        return new Response(JSON.stringify({ error: 'Missing required fields' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      // Initialize Resend client (you may need to import this or call fetch directly)
+      const apiKey = env.RESEND_API_KEY;
+
+      // Call Resend API via fetch (example)
+      const resendResponse = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'onboarding@resend.dev',
+          to: 'kevin45283@gmail.com',
+          reply_to: email,
+          subject,
+          html: `
+            <p><strong>From:</strong> ${email}</p>
+            <p><strong>Subject:</strong> ${subject}</p>
+            <p><strong>Message:</strong></p>
+            <p>${message.replace(/\n/g, '<br>')}</p>
+          `
+        }),
+      });
+
+      if (!resendResponse.ok) {
+        const errorData = await resendResponse.json();
+        return new Response(JSON.stringify({ error: errorData.message || 'Failed to send' }), {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      const data = await resendResponse.json();
+
+      return new Response(JSON.stringify({ success: true, data }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    } catch (error) {
+      return new Response(JSON.stringify({ error: 'Server error' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+  },
+};
