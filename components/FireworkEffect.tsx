@@ -63,9 +63,12 @@ const FireworkEffect: React.FC<{ trigger: { x: number; y: number } | null }> = (
     };
 
     const update = () => {
+      // Reset globalAlpha to ensure clearing works correctly
+      ctx.globalAlpha = 1;
+
       // Use a slight fade effect to leave trails
       ctx.globalCompositeOperation = 'destination-out';
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = 'source-over';
       
