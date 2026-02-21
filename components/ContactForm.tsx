@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const WORKER_URL = 'https://portfolio-api-worker.<your-subdomain>.workers.dev'; // <-- replace with your Worker URL
+const WORKER_URL = 'https://portfolio-api-worker.kevin45283.workers.dev'; // <-- replace with your Worker URL
 
 const ContactForm: React.FC = () => {
   const [email, setEmail] = useState('');
