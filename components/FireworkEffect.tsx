@@ -30,8 +30,8 @@ const FireworkEffect: React.FC<{ trigger: { x: number; y: number } | null }> = (
     
     for (let i = 0; i < particleCount; i++) {
       const angle = (Math.PI * 2 * i) / particleCount;
-      // Increased speed range (was * 5 + 3)
-      const speed = Math.random() * 8 + 4;
+      // Reduced speed range for slower animation
+      const speed = Math.random() * 4 + 2;
       particles.current.push({
         x,
         y,
@@ -68,7 +68,7 @@ const FireworkEffect: React.FC<{ trigger: { x: number; y: number } | null }> = (
 
       // Use a slight fade effect to leave trails
       ctx.globalCompositeOperation = 'destination-out';
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Reduced from 0.2 for longer trails
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = 'source-over';
       
@@ -77,8 +77,8 @@ const FireworkEffect: React.FC<{ trigger: { x: number; y: number } | null }> = (
       particles.current.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
-        p.vy += 0.15; // Increased gravity (was 0.08)
-        p.alpha -= 0.03; // Increased fade speed (was 0.012)
+        p.vy += 0.05; // Reduced gravity (was 0.15)
+        p.alpha -= 0.01; // Reduced fade speed (was 0.03)
         
         ctx.globalAlpha = p.alpha;
         ctx.fillStyle = p.color;
