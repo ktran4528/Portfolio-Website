@@ -3,7 +3,7 @@ import { ResumeData } from './types';
 
 export const RESUME_DATA: ResumeData = {
   name: "Kevin Tran",
-  resumeUrl: "KevinTranResume.pdf",
+  resumeUrl: "/KevinTranResume.pdf",
   contact: {
     location: "Brampton, ON",
     phone: "647-965-6129",
