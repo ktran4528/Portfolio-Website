@@ -203,10 +203,22 @@ export default function DecryptedText({
       : {};
 
   return (
-    <motion.span className={parentClassName} ref={containerRef} style={styles.wrapper} {...hoverProps} {...props}>
+    <motion.span
+      className={parentClassName}
+      ref={containerRef}
+      style={{ ...styles.wrapper, position: 'relative', whiteSpace: 'nowrap' }}
+      {...hoverProps}
+      {...props}
+    >
       <span style={styles.srOnly}>{displayText}</span>
 
-      <span aria-hidden="true">
+      {/* Ghost text for stable width */}
+      <span style={{ opacity: 0 }} aria-hidden="true" className={className}>
+        {text}
+      </span>
+
+      {/* Glitch text overlay */}
+      <span aria-hidden="true" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
         {displayText.split('').map((char, index) => {
           const isRevealedOrDone = revealedIndices.has(index) || !isScrambling || !isHovering;
 
