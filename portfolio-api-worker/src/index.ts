@@ -36,7 +36,13 @@ export default {
           to: "kevin45283@gmail.com",
           reply_to: email,
           subject,
-          html: message.replace(/\n/g, "<br>"),
+          html: `
+            <p><strong>From:</strong> ${email}</p>
+            <p><strong>Subject:</strong> ${subject}</p>
+            <hr/>
+            <p><strong>Message:</strong></p>
+            <p>${message.replace(/\n/g, "<br>")}</p>
+          `,
         }),
       });
 
