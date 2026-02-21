@@ -70,6 +70,6 @@ export const RESUME_DATA: ResumeData = {
   ],
   certifications: [
     "Google Cybersecurity Certificate (October 2025)",
-    "CompTIA Security+ (In-Progress, Expected 2025)"
+    "CompTIA Security+ (In-Progress, Expected 2026)"
   ]
 };

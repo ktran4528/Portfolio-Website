@@ -1,15 +1,17 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 
 const Navigation: React.FC = () => {
   const { theme, setTheme } = useTheme();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
     }
   };
 
@@ -74,9 +76,42 @@ const Navigation: React.FC = () => {
                 <circle cx="12" cy="12" r="3" />
               </svg>
             </button>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 rounded-full hover:bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-colors"
+              aria-label="Toggle Menu"
+            >
+              {isMenuOpen ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="3" y1="12" x2="21" y2="12"></line>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+              )}
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 w-full bg-[var(--bg-primary)] border-b border-[var(--border-color)] shadow-lg animate-in slide-in-from-top-2">
+          <div className="flex flex-col p-4 space-y-4 text-center font-medium text-[var(--text-primary)]">
+            <a href="#about" onClick={(e) => handleScroll(e, 'about')} className="py-2 hover:text-[var(--accent)] transition-colors border-b border-[var(--border-color)] last:border-0">About</a>
+            <a href="#experience" onClick={(e) => handleScroll(e, 'experience')} className="py-2 hover:text-[var(--accent)] transition-colors border-b border-[var(--border-color)] last:border-0">Experience</a>
+            <a href="#skills" onClick={(e) => handleScroll(e, 'skills')} className="py-2 hover:text-[var(--accent)] transition-colors border-b border-[var(--border-color)] last:border-0">Skills</a>
+            <a href="#projects" onClick={(e) => handleScroll(e, 'projects')} className="py-2 hover:text-[var(--accent)] transition-colors border-b border-[var(--border-color)] last:border-0">Projects</a>
+            <a href="#contact" onClick={(e) => handleScroll(e, 'contact')} className="py-2 hover:text-[var(--accent)] transition-colors">Contact</a>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
