@@ -38,12 +38,9 @@ const AppContent: React.FC = () => {
                     "Hands-on experience in penetration testing, network security, and software development."
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="aspect-square rounded-3xl overflow-hidden shadow-inner bg-[var(--accent-secondary)]/50 flex items-center justify-center p-8">
-                     <img src="/linkedin-photo.jpg" className="rounded-2xl object-cover w-full h-full opacity-80" alt="Kevin Tran" />
-                  </div>
-                  <div className="aspect-square rounded-3xl overflow-hidden shadow-inner bg-[var(--accent)]/20 flex items-center justify-center p-8 mt-8">
-                     <img src="https://picsum.photos/seed/developer/400/400" className="rounded-2xl object-cover w-full h-full opacity-80" alt="Code illustration" />
+                <div className="flex justify-center items-center">
+                  <div className="w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-xl bg-[var(--accent-secondary)]/30 flex items-center justify-center p-4">
+                     <img src="/linkedin-photo.jpg" className="rounded-2xl object-cover w-full h-full shadow-sm" alt="Kevin Tran" />
                   </div>
                 </div>
               </div>
