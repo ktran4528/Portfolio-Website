@@ -34,9 +34,7 @@ const AppContent: React.FC = () => {
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div className="text-lg text-[var(--text-secondary)] leading-relaxed">
                   <p className="mb-6">{RESUME_DATA.summary}</p>
-                  <div className="p-6 bg-[var(--bg-secondary)]/30 border-l-4 border-[var(--accent)] rounded-r-2xl italic">
-                    "Hands-on experience in penetration testing, network security, and software development."
-                  </div>
+                  
                 </div>
                 <div className="flex justify-center items-center">
                   <div className="w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-xl bg-[var(--accent-secondary)]/30 flex items-center justify-center p-4">
