@@ -10,7 +10,7 @@ export const RESUME_DATA: ResumeData = {
     email: "kevin45283@gmail.com",
     linkedin: "https://www.linkedin.com/in/kevin-tran-23a51124a/"
   },
-  summary: "I'm a cybersecurity professional with a post-graduate background in cybersecurity and software development. My training has given me hands-on experience with SIEM tools, firewall configuration, and vulnerability assessment, and I bring a strong programming foundation that supports my understanding of secure application design and security process automation. I'm currently looking to launch my career as a SOC analyst, where I can put these skills to work in a real-world environment.",
+  summary: "I'm a cybersecurity professional with a post-graduate background in cybersecurity and software development. My training has given me hands-on experience with SIEM tools, firewall configuration, and vulnerability assessment. I bring a strong programming foundation that supports my understanding of secure application design and security process automation. I'm currently looking to launch my career as a SOC analyst, where I can put these skills to work in a real-world environment.",
   education: {
     institution: "Georgian College",
     location: "Barrie, ON",
