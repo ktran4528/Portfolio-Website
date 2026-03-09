@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --font-script: "Dancing Script", cursive;
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Quicksand", sans-serif;
+  
+  --color-comic-bg: #FFF0F5; /* LavenderBlush */
+  --color-comic-nav: #FFB6C1; /* LightPink */
+  --color-comic-text: #8B454E; /* Cordovan/Dark Pink */
+  --color-comic-accent: #DB7093; /* PaleVioletRed */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+html, body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
